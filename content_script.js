@@ -116,6 +116,17 @@ const waitLoadingFinish = async () => {
   await waitLoaderHide()
 }
 const init = async () => {
+  const initViewer = (e) => {
+    const viewer = createViewer()
+    startPageIndex = e.renderedPage.index
+    appendCanvas(viewer, e.renderedPage.index)
+    $(viewer).on('scroll', onScroll)
+    $('#renderer').on('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 4);
+      }
+    })
+  }
   await waitLoadingFinish()
   // wait until page rendering
   $('#renderer').one(NFBR.a6G.Event.RENDER_FINISH, (e) => {
@@ -123,16 +134,10 @@ const init = async () => {
       // turn off spread view
       $('#settingSpread label[for=spread_false]').click()
       $('#renderer').one(NFBR.a6G.Event.RENDER_FINISH, (e) => {
-        const viewer = createViewer()
-        startPageIndex = e.renderedPage.index
-        appendCanvas(viewer, e.renderedPage.index)
-        $(viewer).on('scroll', onScroll)
+        initViewer(e)
       })
     } else {
-      const viewer = createViewer()
-      startPageIndex = e.renderedPage.index
-      appendCanvas(viewer, e.renderedPage.index)
-      $(viewer).on('scroll', onScroll)
+      initViewer(e)
     }
   })
   $('#renderer').on(NFBR.a6G.Event.RENDER_FINISH, (e) => console.log(e))
