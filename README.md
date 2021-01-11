@@ -1,1 +1,1 @@
-# fuz-scroll
+# fuzscroll

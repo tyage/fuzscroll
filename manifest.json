@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+	"name": "fuzscroll",
+	"description": "description",
+	"version": "0.0.1",
+	"icons": {
+		"64": "icons/icon.png"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"*:/comic-fuz.com/*"
+			],
+			"js": [
+				"content_script.js"
+			]
+		}
+	]
+}
