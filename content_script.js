@@ -125,6 +125,9 @@ const init = async () => {
       if (e.key === 'ArrowDown') {
         $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 4);
       }
+      if (e.key === 'ArrowUp') {
+        $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 4);
+      }
     })
   }
   await waitLoadingFinish()
