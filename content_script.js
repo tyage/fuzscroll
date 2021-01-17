@@ -143,6 +143,5 @@ const init = async () => {
       initViewer(e)
     }
   })
-  $('#renderer').on(NFBR.a6G.Event.RENDER_FINISH, (e) => console.log(e))
 }
 init()
