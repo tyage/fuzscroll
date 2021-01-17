@@ -72,7 +72,7 @@ const scrollLoad = (viewer) => {
 }
 const onScroll = (e) => {
   const viewer = e.target
-  if (viewer.scrollTop + viewer.offsetHeight > viewer.scrollHeight * 0.8) {
+  if (viewer.scrollTop + viewer.offsetHeight * 2 > viewer.scrollHeight) {
     $(viewer).off('scroll', onScroll)
     scrollLoad(viewer)
   }
