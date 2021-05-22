@@ -36,6 +36,7 @@ const createViewer = () => {
   viewer.appendChild(rightCover)
   return viewer
 }
+// scale controller
 const createScaleController = (initScale) => {
   const scaleController = document.createElement('input')
   scaleController.type = 'range'
@@ -49,7 +50,7 @@ const createScaleController = (initScale) => {
     right: 10px;
     z-index: 100000;
 `
-  scaleController.addEventListener('change', () => {
+  scaleController.addEventListener('input', () => {
     changeScale(parseFloat(scaleController.value))
   })
   document.body.append(scaleController)
@@ -60,6 +61,14 @@ const changeScale = (scale) => {
   renderer.style.transform = `scale(${scale})`
   renderer.style.top = `calc(${windowHeight}px * -${(1 - scale) / 2} / ${scale})`
   renderer.style.height = `calc(${windowHeight}px / ${scale})`
+  saveScale(scale)
+}
+const scaleStorageKey = 'fuzscroll-scale'
+const loadScale = () => {
+  return parseFloat(localStorage.getItem(scaleStorageKey)) || 0.5
+}
+const saveScale = (scale) => {
+  localStorage.setItem(scaleStorageKey, scale)
 }
 // copy image from original canvas
 const loadCanvas = (viewer, viewport) => {
@@ -140,7 +149,9 @@ const waitLoadingFinish = async () => {
   }
   await waitLoaderHide()
 }
-const initialScale = 0.5
+
+// initializer
+const initialScale = loadScale()
 const init = async () => {
   const initViewer = (e) => {
     const viewer = createViewer()
@@ -149,10 +160,10 @@ const init = async () => {
     $(viewer).on('scroll', onScroll)
     $('#renderer').on('keydown', (e) => {
       if (e.key === 'ArrowDown') {
-        $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 4);
+        $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 4)
       }
       if (e.key === 'ArrowUp') {
-        $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 4);
+        $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 4)
       }
     })
 
