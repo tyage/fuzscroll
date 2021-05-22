@@ -36,6 +36,31 @@ const createViewer = () => {
   viewer.appendChild(rightCover)
   return viewer
 }
+const createScaleController = (initScale) => {
+  const scaleController = document.createElement('input')
+  scaleController.type = 'range'
+  scaleController.min = 0
+  scaleController.max = 1
+  scaleController.step = 0.01
+  scaleController.value = initScale
+  scaleController.style = `
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100000;
+`
+  scaleController.addEventListener('change', () => {
+    changeScale(parseFloat(scaleController.value))
+  })
+  document.body.append(scaleController)
+}
+const changeScale = (scale) => {
+  const windowHeight = parseInt(window.getComputedStyle(document.body).height)
+  const renderer = document.querySelector('#renderer')
+  renderer.style.transform = `scale(${scale})`
+  renderer.style.top = `calc(${windowHeight}px * -${(1 - scale) / 2} / ${scale})`
+  renderer.style.height = `calc(${windowHeight}px / ${scale})`
+}
 // copy image from original canvas
 const loadCanvas = (viewer, viewport) => {
   const originalCanvas = viewport.querySelector('canvas')
@@ -115,6 +140,7 @@ const waitLoadingFinish = async () => {
   }
   await waitLoaderHide()
 }
+const initialScale = 0.5
 const init = async () => {
   const initViewer = (e) => {
     const viewer = createViewer()
@@ -129,6 +155,9 @@ const init = async () => {
         $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 4);
       }
     })
+
+    createScaleController(initialScale)
+    changeScale(initialScale)
   }
   await waitLoadingFinish()
   // wait until page rendering
