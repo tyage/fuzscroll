@@ -19,7 +19,7 @@ const createViewer = () => {
     bottom: 0;
     background: black;
     z-index: 100;
-    left: 0;
+    left: -100000px;
     right: 78.4%;
 `
   const rightCover = document.createElement('div')
@@ -30,7 +30,7 @@ const createViewer = () => {
     background: black;
     z-index: 100;
     left: 78.4%;
-    right: 0;
+    right: -100000px;
 `
   viewer.appendChild(leftCover)
   viewer.appendChild(rightCover)
@@ -41,7 +41,7 @@ const createScaleController = (initScale) => {
   const scaleController = document.createElement('input')
   scaleController.type = 'range'
   scaleController.min = 0
-  scaleController.max = 1
+  scaleController.max = 2
   scaleController.step = 0.01
   scaleController.value = initScale
   scaleController.style = `
@@ -160,10 +160,10 @@ const init = async () => {
     $(viewer).on('scroll', onScroll)
     $('#renderer').on('keydown', (e) => {
       if (e.key === 'ArrowDown') {
-        $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 4)
+        $(viewer).scrollTop($(viewer).scrollTop() + $(viewer).height() / 6)
       }
       if (e.key === 'ArrowUp') {
-        $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 4)
+        $(viewer).scrollTop($(viewer).scrollTop() - $(viewer).height() / 6)
       }
     })
 
